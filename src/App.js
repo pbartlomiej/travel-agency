@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {BrowserRouter, Switch, Route} from 'react-router-dom';
+import {BrowserRouter, Route} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import MainLayout from './components/layout/MainLayout/MainLayout';
@@ -16,6 +16,7 @@ import NotFound from './components/views/NotFound/NotFound';
 
 import parseTrips from './utils/parseTrips';
 import {setMultipleStates} from './redux/globalRedux';
+import { AnimatedSwitch } from 'react-router-transition';
 
 class App extends React.Component {
   static propTypes = {
@@ -40,7 +41,13 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <MainLayout>
-          <Switch location={location}>
+          <AnimatedSwitch
+            className='switchWrapper'
+            location={location}
+            atEnter={{ opacity: 0 }}
+            atLeave={{ opacity: 0 }}
+            atActive={{ opacity: 1 }}
+          >
             <Route exact path='/' component={Home} />
             <Route exact path='/trips' component={Trips} />
             <Route exact path='/trip/:id' component={Trip} />
@@ -49,7 +56,7 @@ class App extends React.Component {
             <Route exact path='/regions' component={Regions} />
             <Route exact path='/info' component={Info} />
             <Route path='*' component={NotFound} />
-          </Switch>
+          </AnimatedSwitch>
         </MainLayout>
       </BrowserRouter>
     );
